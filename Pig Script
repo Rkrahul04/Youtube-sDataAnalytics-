@@ -1,0 +1,82 @@
+Scripts for 1st problem statement: 
+
+1. youtube = load '/youtubedata.txt' using PigStorage();  
+
+ 
+2. youtube_final = foreach youtube generate $0 as id ,$3 as category;
+ 
+3. group_data = group youtube_final by category; 
+
+4. count_category = foreach group_data generate group, COUNT(youtube_final.category)as 
+category_count;
+
+5. Sort_data = order count_category by category_count desc;
+ 
+6. final_result = limit Sort_data 5;
+
+Explanation for the above scripts: 
+
+1. Input file is loaded from hdfs into relation youtube. 
+2. 1st and 4th column i.e video and category are extracted from the relation youtube and stored in a
+new relation youtube_final.
+ 
+3. The entries from the above relation i.e youtube_final are grouped according to category column. 
+ 
+4. From the youtube_final category, the count of videos from every category are generated and
+stored in relation count_category.
+ 
+5. The entries from the relation count_category are arranged in a descending order of the number of
+videos.
+ 
+6. The top 5 entries are selected and it gives the desired result.
+
+Scripts for the 2nd problem statement: 
+
+1. youtube = load '/youtubedata.txt' using PigStorage(); 
+
+2. youtube_final = foreach youtube generate $0 as id, $6 as rating; 
+
+3. order_data = order youtube_final by rating desc; 
+
+4. final_data = limit order_data 10; 
+
+5. dump final_data; 
+
+Explanation for the above scripts: 
+
+1. Dataset is loaded from hdfs in the relation youtube 
+
+2. 1stand 7th column i.e video and rating of that video are extracted from the relation youtube and
+stored in a new relation youtube_final
+ 
+
+3. The youtube_final relation is arranged in descending order of ratings and stored in the relation 
+order_data.
+ 
+4. The 10 top entries are extracted and stored in the relation final_data to achieve the final result by
+dumping the relation final_data.
+
+Scripts for 3rd problem statement: 
+
+1 youtube = load '/youtubedata.txt' using PigStorage(); 
+
+2 youtube_final1 = foreach youtube generate $0 as id,(int)$5 as view; 
+
+3. youtube_final2 = filter youtube_final1 by $1 is not null; 
+
+ 
+4. order_data1 = order youtube_final2 by view desc;
+ 
+5. final_data1 = limit order_data 10;
+6. dump final_data1;
+
+Explanation for the above scripts: 
+1. Dataset is loaded from hdfs in relation youtube 
+2. 1st and 6th column i.e video and number of views are extracted from the youtube relation and 
+stored into a new relation called youtube_final1 
+3. From relation youtube_final1 the entries with number of views as null are rejected and filtered 
+values are stored in relation youtube_relation2 
+4. The relation youtube_final2 are arranged in descending order of number of views and stored in a 
+new relation called order_data1. 
+5. The top 10 entries are extracted and stored in relation final_data1 and final result is achieved by 
+dumping relation final_data1. 
